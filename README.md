@@ -1,4 +1,4 @@
-# Group Allocation system by Team *enter team name here*
+# Group Allocation system by Team *Ibis*
 A group allocation system developed for the Small Group Project assignment of the Software Engineering Group Project module at King's College London.
 
 ## Team members
