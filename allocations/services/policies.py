@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
+from allocations.services.allocation_data import TeamData
 
 @dataclass
 class PolicyAllocationScore:
@@ -14,12 +15,12 @@ class AllocationPolicy(ABC):
         self.hard_condition: bool = hard_condition
 
     @abstractmethod
-    def evaluate_teams(self, teams: list) -> PolicyAllocationScore:
-        """Evaluates cross-team policies"""
-        raise NotImplementedError
+    def evaluate_teams(self, teams: list[TeamData]) -> PolicyEvaluation:
 
-    @abstractmethod
-    def evaluate_team(self, team) -> PolicyAllocationScore:
-        """Evaluates per-team policies"""
-        raise NotImplementedError
+        ...
 
+    def evaluate_team(self, team: TeamData) -> PolicyEvaluation:
+
+        raise NotImplementedError(
+            f"{self.__class__.__name__} does not implement per-team evaluation."
+        )
