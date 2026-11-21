@@ -16,7 +16,9 @@ class TeamSizePolicy(AllocationPolicy):
         return None
 
     def evaluate_teams(self, teams: list[TeamData]) -> PolicyEvaluation:
-        return PolicyEvaluation()
+        violations = [violation for team in teams if (violation := self._violation(team))]
+        score = 1 if not teams else 1 - (len(violations) / len(teams))
+        return PolicyEvaluation(score, violations)
     
     def evaluate_team(self, team: TeamData) -> PolicyEvaluation:
         return PolicyEvaluation()
