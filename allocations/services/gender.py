@@ -13,7 +13,7 @@ class GenderRepresentationPolicy(AllocationPolicy):
     def evaluate_teams(self, teams: list[TeamData]) -> PolicyEvaluation:
         violations = [violation for team in teams for violation in self._sole_member(team)]
         number_of_disclosed = sum(1 for team in teams for member in team.members if member.gender != 0)
-        score = 1 if number_of_disclosed == 0 else 1 - (len(violations) / number_of_disclosed)
+        score = 1 if number_of_disclosed == 0 and len(violations) == 0 else 1 - (len(violations) / number_of_disclosed)
         return PolicyEvaluation(score, number_of_disclosed)
     
     def evaluate_team(self, team: TeamData) -> PolicyEvaluation:
