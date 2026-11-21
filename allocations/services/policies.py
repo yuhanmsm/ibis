@@ -37,13 +37,13 @@ class AllocationPolicy(ABC):
     """Base class for an allocation policy
 
     :param name: The name of the policy
-    :param priority: The priority that this policy should have
+    :param priority: The priority (0-100) that this policy should have
     :param hard_condition: Whether the policy must be satisfied fully
     """
 
     def __init__(self, name: str, priority: int, hard_condition: bool = False):
-        if priority < 0:
-            raise ValueError("Priority can not be negative.")
+        if priority < 0 or priority > 100:
+            raise ValueError("Priority must be an integer between 0 and 100.")
         self.name: str = name
         self.priority: int = priority
         self.hard_condition: bool = hard_condition
