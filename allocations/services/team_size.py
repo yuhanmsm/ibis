@@ -1,8 +1,19 @@
 from policies import *
 
 class TeamSizePolicy(AllocationPolicy):
-    def __init__(self, name: str, priority: int, hard_condition: bool = False):
-        super().__init__(name, priority, hard_condition)
+    def __init__(self, min_size: int, max_size: int, priority: int, hard_condition: bool = False):
+        if min_size < 1 or max_size < min_size:
+            raise ValueError("min_size must be between 1 and max_size.")
+        
+        super().__init__(priority, hard_condition)
+        self.min_size = min_size
+        self.max_size = max_size
+
+    def _violation(self, team: TeamData) -> PolicyViolation | None:
+        number_of_members = len(team.members)
+        if number_of_members < self.min_size or number_of_members > self.max_size:
+            return PolicyViolation(f"{team.name} has {number_of_members} members. Member size should be {self.min_size} to {self.max_size}.")
+        return None
 
     def evaluate_teams(self, teams: list[TeamData]) -> PolicyEvaluation:
         return PolicyEvaluation()
