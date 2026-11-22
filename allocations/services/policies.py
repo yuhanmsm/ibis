@@ -58,10 +58,12 @@ class AllocationPolicy(ABC):
         """
         ...
 
-    def evaluate_team(self, team: TeamData) -> PolicyEvaluation:
+    @abstractmethod
+    def _evaluate_team(self, team: TeamData) -> PolicyEvaluation:
         """Evaluates to what extent the policy has been met per team
 
-        Not always possible depending on the policy, so not mandatory to implement
+        Should be used as a helper for looping in evaluate_teams. If not useful
+        just super()._evaluate_team(self, team) to inherit the NotImplementedError.
 
         :param team: The team to evaluate
         :returns: An evaluation of to what extent the policy has been satisfied
