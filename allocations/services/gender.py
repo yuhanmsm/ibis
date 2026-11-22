@@ -16,5 +16,5 @@ class GenderRepresentationPolicy(AllocationPolicy):
         score = 1 if number_of_disclosed == 0 and len(violations) == 0 else 1 - (len(violations) / number_of_disclosed)
         return PolicyEvaluation(score, number_of_disclosed)
     
-    def evaluate_team(self, team: TeamData) -> PolicyEvaluation:
+    def _evaluate_team(self, team: TeamData) -> PolicyEvaluation:
         return PolicyEvaluation()

@@ -16,7 +16,7 @@ class AttainmentPolicy(AllocationPolicy):
         self.max_spread: int = max_spread
 
     @override
-    def evaluate_team(self, team: TeamData) -> PolicyEvaluation:
+    def _evaluate_team(self, team: TeamData) -> PolicyEvaluation:
         scores = [
             student.c_score for student in team.members if student.c_score is not None
         ]
@@ -45,7 +45,7 @@ class AttainmentPolicy(AllocationPolicy):
         if not teams:
             return PolicyEvaluation(1)
 
-        team_evaluations = [self.evaluate_team(team) for team in teams]
+        team_evaluations = [self._evaluate_team(team) for team in teams]
         average_score = sum(evaluation.score for evaluation in team_evaluations) / len(
             team_evaluations
         )
