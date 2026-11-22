@@ -20,7 +20,7 @@ class StudentData:
     email: str
     gender: int = 0
     ethnicity: int = 0
-    c_score: int = 0
+    c_score: int | None = None
 
 
 @dataclass
