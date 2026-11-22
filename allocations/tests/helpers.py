@@ -1,6 +1,7 @@
 from django.urls import reverse
 
 from allocations.models import User
+from allocations.services.allocation_data import StudentData, TeamData
 
 PASSWORD = "Allocation123"
 
@@ -40,3 +41,33 @@ def log_in_url_for(url):
 def messages_in(response):
     """Return the texts of the messages shown in a response."""
     return [str(message) for message in response.context["messages"]]
+
+
+def make_student(
+    email: str = "student@example.org",
+    first_name: str = "Test",
+    last_name: str = "Student",
+    gender: int = 0,
+    ethnicity: int = 0,
+    c_score: int | None = 70,
+) -> StudentData:
+    """Create a StudentData instance with defaults for unit tests."""
+    return StudentData(
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        gender=gender,
+        ethnicity=ethnicity,
+        c_score=c_score,
+    )
+
+
+def make_team(name: str = "Team 1", *c_scores: int | None) -> TeamData:
+    """Create a TeamData populated with students having the given c-scores."""
+    members = [
+        make_student(
+            email=f"{name.lower().replace(' ', '')}_s{i}@example.org", c_score=score
+        )
+        for i, score in enumerate(c_scores, start=1)
+    ]
+    return TeamData(name=name, members=members)
