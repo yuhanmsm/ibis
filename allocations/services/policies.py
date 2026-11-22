@@ -58,7 +58,6 @@ class AllocationPolicy(ABC):
         """
         ...
 
-    @abstractmethod
     def _evaluate_team(self, team: TeamData) -> PolicyEvaluation:
         """Evaluates to what extent the policy has been met per team
 
