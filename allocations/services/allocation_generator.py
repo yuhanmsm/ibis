@@ -56,7 +56,29 @@ def make_initial_teams(students: list[StudentData], sizes: list[int],
 
 
 # Step 3: AllocationStatus and AllocationResult go here
+class AllocationStatus(Enum):
+    SUCCESS = "success"          # found teams that break no hard rule
+    INFEASIBLE = "infeasible"    # proven impossible (e.g. 7 students, sizes 4-5)
+    NOT_FOUND = "not_found"      # searched until the time limit, no valid teams found
 
+@dataclass(frozen=True)
+class PolicyOutcome:
+    policy: AllocationPolicy        # gives name, priority, hard_condition
+    evaluation: PolicyEvaluation    # gives score, violations, satisfied
+
+@dataclass
+class AllocationResult:
+    status: AllocationStatus
+    message: str                                   # plain-English summary for the user
+    teams: list[TeamData] = field(default_factory=list)          # empty unless SUCCESS
+    outcomes: list[PolicyOutcome] = field(default_factory=list)  # one per policy
+    soft_score: float | None = None                # weighted soft score, 0-1
+    time_taken: float = 0.0                        # seconds
+
+    @property
+    def is_valid(self) -> bool:
+        """True only when teams were produced that satisfy every hard condition."""
+        return self.status == AllocationStatus.SUCCESS
 # Step 4: evaluate(teams, policies)
 
 # Step 5: is_better(a, b)
