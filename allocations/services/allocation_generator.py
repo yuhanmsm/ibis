@@ -36,11 +36,22 @@ def plan_team_sizes(number_of_students: int, min_size: int, max_size: int) -> li
 
     
 
-    raise NotImplementedError
-
+    raise NotImplementedError 
 
 def make_initial_teams(students: list[StudentData], sizes: list[int],
-                       rng: random.Random) -> list[TeamData]: #Shuffle the students and split them into teams of the given sizes.
+                       rng: random.Random) -> list[TeamData]:
+    """Shuffle the students and split them into teams of the given sizes."""
+    shuffled = list(students)          # copy, so the caller's list isn't changed
+    rng.shuffle(shuffled)
+
+    teams = []
+    start = 0                          # your pointer: where the next team begins
+    for index, size in enumerate(sizes):
+        members = shuffled[start:start + size]
+        teams.append(TeamData(name=f"Team {index + 1}", members=members))
+        start += size                  # move the pointer past this team
+    return teams 
+
     raise NotImplementedError
 
 
